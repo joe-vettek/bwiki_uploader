@@ -1,0 +1,46 @@
+# Blender MTL File: 'None'
+# Material Count: 4
+
+newmtl MI_Maddelena_Metal10
+Ns 900.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 0.000000
+d 1.000000
+illum 1
+map_Kd https://wiki.biligame.com/klbq/Special:FilePath/T_Madeleina_Body_102_D.png
+
+newmtl Mi_Maddelena_Glass
+Ns 900.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 0.000000
+d 1.000000
+illum 1
+map_Kd https://wiki.biligame.com/klbq/Special:FilePath/T_Madeleina_Hair_102_D.png
+
+newmtl Mi_Maddelena_Glass_on
+Ns 900.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 0.000000
+d 0.600746
+illum 1
+map_Kd https://wiki.biligame.com/klbq/Special:FilePath/T_Madeleina_Hair_102_D.png
+
+newmtl eyesin
+Ns 900.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 0.000000
+d 1.000000
+illum 1
+map_Kd https://wiki.biligame.com/klbq/Special:FilePath/T_Maddelena_Face_D.png
