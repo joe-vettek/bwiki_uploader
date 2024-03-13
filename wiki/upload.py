@@ -1,15 +1,43 @@
+import os.path
+import sys
+
 from requests import Session
 
 import wiki.GetCookie as ck
 import wiki.JsonTool as jt
 
-host = "https://wiki.biligame.com/klbq/api.php?"
+host = ""
+if os.path.exists("host"):
+    with open("host", "r", encoding="utf-8") as f:
+        host = f.read()
+        print(f"Host: {host}")
+else:
+    with open("host", "w", encoding="utf-8") as f:
+        pass
+    input(f"缺少host，可参考格式: https://wiki.biligame.com/YourWebsiteCode/api.php?")
+    sys.exit(0)
+
+if len(host) == 0:
+    input(f"缺少host，请在目录下补充，可参考格式: https://wiki.biligame.com/YourWebsiteCode/api.php?")
+    sys.exit(0)
+
 headers = {
     # "Cookie":SESSDATA,
     "User-Agent": "MagicCat Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Mobile Safari/537.36"
 }
+
+cookie_pass = ""
+
+try:
+    cookie_pass = ck.main()
+except Exception as e:
+    print(e)
+    input("请在微软Edge浏览器上登录b站账号，并关闭浏览器（可以在cmd中输入‘taskkill /F /IM msedge.exe’）")
+    sys.exit(0)
+
 sessdata = Session()
-sessdata.cookies.update({"SESSDATA": ck.main()})
+
+sessdata.cookies.update({"SESSDATA": cookie_pass})
 
 tokenParams = {
     'action': 'query',
@@ -61,9 +89,13 @@ def uploadtoWikiWithFile(titles, tt, chunk, csrftoken):
     res = sessdata.post(host, data=editTittle, headers=headers, files={'file': chunk})
     try:
         if res.json().get("error") is not None and res.json()["error"]["code"] == "fileexists-no-change":
-            uploadtoWiki("文件:"+titles, tt, csrftoken)
+            uploadtoWiki("文件:" + titles, tt, csrftoken)
         else:
             print(jt.strToJson(res.text) + ",")
+        # 有时候这个文件重复，仅需要更新文字
+        if res.json().get("upload") is not None and res.json()["upload"].get("warnings") is not None and \
+                res.json()["upload"]["warnings"].get("exists") is not None:
+            uploadtoWiki("文件:" + titles, tt, csrftoken)
     except Exception as e:
         print("文件{}长度为{:.2f}MB".format(titles, len(chunk) / 1024 ** 2), e)
 
