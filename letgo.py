@@ -30,10 +30,10 @@ def get_root_dir(dirname):
     return dirname if len(ds) <= 1 else ds[0]
 
 
-p1 = 'files'
-p2 = 'copyright_files'
-createDir(p1)
-createDir(p2)
+# p1 = 'files'
+# p2 = 'copyright_files'
+# createDir(p1)
+# createDir(p2)
 
 
 def letGo(p):
