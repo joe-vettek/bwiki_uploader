@@ -7,6 +7,8 @@ from datetime import datetime, timedelta
 import win32crypt  # pip install pypiwin32
 from Crypto.Cipher import AES  # pip install pycryptodome
 
+from wiki import LogHelper
+
 
 def get_chrome_datetime(chromedate):
     """Return a `datetime.datetime` object from a chrome format datetime
@@ -15,7 +17,7 @@ def get_chrome_datetime(chromedate):
         try:
             return datetime(1601, 1, 1) + timedelta(microseconds=chromedate)
         except Exception as e:
-            print(f"Error: {e}, chromedate: {chromedate}")
+            LogHelper.printLog(f"Error: {e}, chromedate: {chromedate}")
             return chromedate
     else:
         return ""
@@ -28,7 +30,7 @@ def get_encryption_key():
     local_state_path = os.path.join(os.environ["USERPROFILE"],
                                     "AppData", "Local", "Microsoft", "Edge",
                                     "User Data", "Local State")
-    # print(local_state_path)
+    # LogHelper.printLog(local_state_path)
     with open(local_state_path, "r", encoding="utf-8") as f:
         local_state = f.read()
         local_state = json.loads(local_state)
@@ -105,7 +107,7 @@ def main():
         if host_key == ".biligame.com" and name == "SESSDATA":
             aaaa += f"{decrypted_value}"
         # if 1>0:
-        #     print(f"""
+        #     LogHelper.printLog(f"""
         # Host: {host_key}
         # Cookie Path: {path}
         # Cookie name: {name}
@@ -120,7 +122,7 @@ def main():
         # UPDATE cookies SET value = ?, has_expires = 1, expires_utc = 99999999999999999, is_persistent = 1, is_secure = 0
         # WHERE host_key = ?
         # AND name = ?""", (decrypted_value, host_key, name))
-    # print(aaaa)
+    # LogHelper.printLog(aaaa)
     # with open("wiki/Cookie", "w", encoding="utf-8") as f:
     #     f.write(aaaa)
     #     f.close

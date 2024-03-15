@@ -1,21 +1,16 @@
+import sys
+
 import traceback
 
 import os
-import sys
-import wiki.FileGetter as fg
-import wiki.docTool as dt
 
-from wiki import upload
+from wiki import upload, LogHelper, FileGetter as fg, docTool as dt
+
+
 # try:
 #     from wiki import upload
 # except Exception as e:
-#     print(e)
-
-
-
-def createDir(dir):
-    if not os.path.exists(dir):
-        os.makedirs(dir)
+#     LogHelper.printLog(e)
 
 
 def getfile(file):
@@ -35,7 +30,7 @@ def get_root_dir(dirname):
 # createDir(p1)
 # createDir(p2)
 
-
+hasDescription=False
 def letGo(p):
     allfile = fg.readDir(p)
     for f in allfile:
@@ -47,6 +42,7 @@ def letGo(p):
         text = ""
         txt = os.path.basename(p) + ".txt"
         if os.path.exists(txt):
+            hasDescription=True
             try:
                 with open(txt) as txtfile:
                     text = txtfile.read() \
@@ -62,19 +58,27 @@ def letGo(p):
         not_special_docx = filetype not in [".obj", ".mtl"]
         chunk = getfile(f) if not_special_docx else dt.get_docx_chunk(f)
         fname = filename if not_special_docx else filename + ".docx"
-        # print(filetype,filetype not in [".obj", ".mtl"])
+        # LogHelper.printLog(filetype,filetype not in [".obj", ".mtl"])
         upload.prepareUploadWikiWithFile([upload.createPairWithFile(fname, text, chunk)])
 
-root = os.getcwd()
-dirs = [os.path.realpath(os.path.join(root, dir_here)) for dir_here in os.listdir(root) if
-        os.path.isdir(dir_here) and not dir_here.startswith(".")]
 
-for d in dirs:
-    try:
-        letGo(d)
-    except Exception as e:
-        print("发生错误：", e)
-        traceback.print_exc()
-        pass
 
-input("按下任何按钮来退出")
+
+if __name__ == '__main__':
+    root = os.getcwd()
+    dirs = [os.path.realpath(os.path.join(root, dir_here)) for dir_here in os.listdir(root) if
+            os.path.isdir(dir_here) and not dir_here.startswith(".")]
+
+    for d in dirs:
+        try:
+            letGo(d)
+        except Exception as e:
+            LogHelper.printLog("发生错误：", e)
+            # traceback.print_exc()
+            LogHelper.printLog(traceback.format_exc(),True)
+            pass
+    if not hasDescription:
+        print("可以创建 文件夹名字.txt 来定义补充文件说明，可以使用的参数有 %filename，%filetype，%category")
+    input("按下任何按钮来退出")
+    sys.exit(0)
+

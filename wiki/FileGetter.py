@@ -125,3 +125,11 @@ def initDir():
         os.makedirs(getCachLuaTempDirPath())
     if not os.path.exists(getWikiDirPath()):
         os.makedirs(getWikiDirPath())
+
+
+def createDir(dir):
+    if not os.path.exists(dir):
+        os.makedirs(dir)
+
+def getLogDir():
+    return getRoot()
