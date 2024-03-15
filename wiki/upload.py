@@ -13,11 +13,11 @@ if os.path.exists("host"):
 else:
     with open("host", "w", encoding="utf-8") as f:
         pass
-    input(f"缺少host，可参考格式: https://wiki.biligame.com/wikia/api.php?")
+    input(f"缺少host，可参考格式: https://wiki.biligame.com/xxxx/api.php?")
     sys.exit(0)
 
 if len(host) == 0:
-    input(f"缺少host，请在目录下补充，可参考格式: https://wiki.biligame.com/wikia/api.php?")
+    input(f"缺少host，请在目录下补充，可参考格式: https://wiki.biligame.com/xxxx/api.php?")
     sys.exit(0)
 
 headers = {
