@@ -9,6 +9,31 @@ from Crypto.Cipher import AES  # pip install pycryptodome
 
 from wiki import LogHelper
 
+STATE_CHROME = 0
+STATE_EDGE = 100
+STATE_EDGE_PROFILE_2 = 101
+
+DBPATH_CHROME = os.path.join(os.environ["USERPROFILE"], "AppData", "Local",
+                             "Google", "Chrome", "User Data", "Default", "Network", "Cookies")
+
+DBPATH_EDGE = os.path.join(os.environ["USERPROFILE"],
+                           "AppData", "Local", "Microsoft", "Edge",
+                           "User Data", "Default", "Network", "Cookies")
+DBPATH_EDGE_PROFILE_2 = os.path.join(os.environ["USERPROFILE"],
+                                     "AppData", "Local", "Microsoft", "Edge",
+                                     "User Data", "Profile 2", "Network", "Cookies")
+
+KEYPATH_CHROME = os.path.join(os.environ["USERPROFILE"],
+                              "AppData", "Local", "Google", "Chrome", "User Data", "Local State")
+KEYPATH_EDGE = os.path.join(os.environ["USERPROFILE"],
+                            "AppData", "Local", "Microsoft", "Edge", "User Data", "Local State")
+
+state = 0
+if os.path.exists(DBPATH_EDGE_PROFILE_2):
+    state = STATE_EDGE_PROFILE_2
+elif os.path.exists(DBPATH_EDGE):
+    state = STATE_EDGE
+
 
 def get_chrome_datetime(chromedate):
     """Return a `datetime.datetime` object from a chrome format datetime
@@ -24,12 +49,7 @@ def get_chrome_datetime(chromedate):
 
 
 def get_encryption_key():
-    # local_state_path = os.path.join(os.environ["USERPROFILE"],
-    #                                 "AppData", "Local", "Google", "Chrome",
-    #                                 "User Data", "Local State")
-    local_state_path = os.path.join(os.environ["USERPROFILE"],
-                                    "AppData", "Local", "Microsoft", "Edge",
-                                    "User Data", "Local State")
+    local_state_path = KEYPATH_EDGE if int(state / 100) == 1 else KEYPATH_CHROME
     # LogHelper.printLog(local_state_path)
     with open(local_state_path, "r", encoding="utf-8") as f:
         local_state = f.read()
@@ -64,15 +84,11 @@ def decrypt_data(data, key):
 
 def main():
     # local sqlite Chrome cookie database path
-    # db_path = os.path.join(os.environ["USERPROFILE"], "AppData", "Local",
-    #                        "Google", "Chrome", "User Data", "Default", "Network", "Cookies")
-    db_path = os.path.join(os.environ["USERPROFILE"],
-                           "AppData", "Local", "Microsoft", "Edge",
-                           "User Data", "Default", "Network", "Cookies")
-    if not os.path.exists(db_path):
-        db_path = os.path.join(os.environ["USERPROFILE"],
-                               "AppData", "Local", "Microsoft", "Edge",
-                               "User Data", "Profile 2", "Network", "Cookies")
+    db_path = DBPATH_CHROME
+    if state == STATE_EDGE_PROFILE_2:
+        db_path = DBPATH_EDGE_PROFILE_2
+    elif state == STATE_EDGE:
+        db_path = DBPATH_EDGE
     # copy the file to current directory
     # as the database will be locked if chrome is currently open
     filename = "Cookies.db"
@@ -136,3 +152,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    print(101 / 100, 0 / 100)
