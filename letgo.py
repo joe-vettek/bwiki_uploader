@@ -79,6 +79,6 @@ if __name__ == '__main__':
             pass
     if not hasDescription:
         print("可以创建 文件夹名字.txt 来定义补充文件说明，可以使用的参数有 %filename，%filetype，%category")
-    input("按下任何按钮来退出")
+    input("按下Enter按钮来退出")
     sys.exit(0)
 
