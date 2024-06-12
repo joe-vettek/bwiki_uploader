@@ -100,14 +100,23 @@ def uploadtoWikiWithFile(titles, tt, chunk, csrftoken):
         if res.json().get("upload") is not None and res.json()["upload"].get("warnings") is not None and \
                 res.json()["upload"]["warnings"].get("exists") is not None:
             uploadtoWiki("文件:" + titles, tt, csrftoken)
+        return True
     except Exception as e:
         LogHelper.printLog("文件{}长度为{:.2f}MB".format(titles, len(chunk) / 1024 ** 2), e)
+        return False
 
 
-def prepareUploadWikiWithFile(allList):
+def prepareUploadWikiWithFileList(allList):
+    LogHelper.printLog("[")
+    for r in allList:
+        prepareUploadWikiWithFile(r)
+    LogHelper.printLog("]")
+
+
+def prepareUploadWikiWithFile(r):
     tokenresponse = sessdata.post(host, headers=headers, data=tokenParams)
     csrftoken = tokenresponse.json()['query']['tokens']['csrftoken']
     LogHelper.printLog("[")
-    for r in allList:
-        uploadtoWikiWithFile(r["tittle"], r["text"], r["chunk"], csrftoken)
+    result = uploadtoWikiWithFile(r["tittle"], r["text"], r["chunk"], csrftoken)
     LogHelper.printLog("]")
+    return result

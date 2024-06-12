@@ -1,6 +1,7 @@
 # utlSimple/File.Getter.py
 
 import collections
+import hashlib
 import json
 import os
 
@@ -133,3 +134,19 @@ def createDir(dir):
 
 def getLogDir():
     return getRoot()
+
+def getData():
+    return join(getLogDir(),"上传记录.json")
+
+def calculate_md5(file_path):
+    # 打开文件，以二进制只读模式打开
+    with open(file_path, "rb") as f:
+        # 创建 MD5 哈希对象
+        md5_hash = hashlib.md5()
+
+        # 循环读取文件的内容并更新哈希对象
+        for chunk in iter(lambda: f.read(4096), b""):
+            md5_hash.update(chunk)
+
+    # 返回 MD5 哈希的十六进制表示
+    return md5_hash.hexdigest()

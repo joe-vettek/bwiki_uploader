@@ -4,10 +4,14 @@ import json
 import  wiki.FileGetter as fg
 
 def readJsonFile(file):
-    with open(file, "r", encoding="utf-8") as f:
-        allJson = json.load(f, object_pairs_hook=collections.OrderedDict)
-        f.close()
-        return allJson
+    try:
+        with open(file, "r", encoding="utf-8") as f:
+            allJson = json.load(f, object_pairs_hook=collections.OrderedDict)
+            f.close()
+            return allJson
+    except:
+        return {}
+
 
 def saveDictAsJson(file, dict0):
     with open(file, "w", encoding="utf-8") as f:
