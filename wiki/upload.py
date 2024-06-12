@@ -1,5 +1,6 @@
 import os.path
 import sys
+import traceback
 
 from requests import Session
 
@@ -58,8 +59,12 @@ def uploadtoWiki(titles, tt, csrftoken):
         'token': csrftoken
     }
     #
-    res = sessdata.post(host, data=editTittle, headers=headers)
-    LogHelper.printLog(jt.strToJson(res.text) + ",")
+    try:
+        res = sessdata.post(host, data=editTittle, headers=headers)
+        LogHelper.printLog(jt.strToJson(res.text) + ",")
+    except Exception as e:
+        traceback.print_exc()
+        print(e)
 
 
 def prepareUploadWiki(allList):
@@ -85,8 +90,8 @@ def uploadtoWikiWithFile(titles, tt, chunk, csrftoken):
         'comment': '自动化编辑', 'text': tt,
         'token': csrftoken, "ignorewarnings": True
     }
-    res = sessdata.post(host, data=editTittle, headers=headers, files={'file': chunk})
     try:
+        res = sessdata.post(host, data=editTittle, headers=headers, files={'file': chunk})
         if res.json().get("error") is not None and res.json()["error"]["code"] == "fileexists-no-change":
             uploadtoWiki("文件:" + titles, tt, csrftoken)
         else:
