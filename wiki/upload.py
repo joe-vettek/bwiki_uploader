@@ -90,20 +90,25 @@ def uploadtoWikiWithFile(titles, tt, chunk, csrftoken):
         'comment': '自动化编辑', 'text': tt,
         'token': csrftoken, "ignorewarnings": True
     }
+    success = False
     try:
         res = sessdata.post(host, data=editTittle, headers=headers, files={'file': chunk})
         if res.json().get("error") is not None and res.json()["error"]["code"] == "fileexists-no-change":
             uploadtoWiki("文件:" + titles, tt, csrftoken)
         else:
             LogHelper.printLog(jt.strToJson(res.text) + ",")
+            if res.json().get("upload") is not None and res.json()["upload"].get("result") == "Success":
+                success = True
         # 有时候这个文件重复，仅需要更新文字
         if res.json().get("upload") is not None and res.json()["upload"].get("warnings") is not None and \
                 res.json()["upload"]["warnings"].get("exists") is not None:
             uploadtoWiki("文件:" + titles, tt, csrftoken)
-        return True
+            success = True
+
     except Exception as e:
         LogHelper.printLog("文件{}长度为{:.2f}MB".format(titles, len(chunk) / 1024 ** 2), e)
-        return False
+
+    return success
 
 
 def prepareUploadWikiWithFileList(allList):
