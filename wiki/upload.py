@@ -106,7 +106,7 @@ def uploadtoWikiWithFile(titles, tt, chunk, csrftoken):
             success = True
 
     except Exception as e:
-        LogHelper.printLog("文件{}长度为{:.2f}MB".format(titles, len(chunk) / 1024 ** 2), e)
+        LogHelper.printLog("文件：{}，长度为{:.2f}MB，错误原因为{}".format(titles, len(chunk) / 1024 ** 2, e),True)
 
     return success
 
