@@ -34,7 +34,7 @@ try:
         raise Exception('Cookie获取错误，如使用固定Cookie信息可以创建名为cookie的文件在目录下，并放入cookie信息')
 except Exception as e:
     if os.path.exists('cookie'):
-        with open("host", "r", encoding="utf-8") as f:
+        with open("cookie", "r", encoding="utf-8") as f:
             cookie_pass = f.read()
     else:
         LogHelper.printLog(e)
