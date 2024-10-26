@@ -30,10 +30,16 @@ cookie_pass = ""
 
 try:
     cookie_pass = ck.main()
+    if len(cookie_pass) == 0:
+        raise Exception('Cookie获取错误，如使用固定Cookie信息可以创建名为cookie的文件在目录下，并放入cookie信息')
 except Exception as e:
-    LogHelper.printLog(e)
-    input("请在微软Edge浏览器上登录b站账号，并关闭浏览器（可以在cmd中输入‘taskkill /F /IM msedge.exe’）")
-    sys.exit(0)
+    if os.path.exists('cookie'):
+        with open("host", "r", encoding="utf-8") as f:
+            cookie_pass = f.read()
+    else:
+        LogHelper.printLog(e)
+        input("请在微软Edge浏览器上登录b站账号，并关闭浏览器（可以在cmd中输入‘taskkill /F /IM msedge.exe’）")
+        sys.exit(0)
 
 sessdata = Session()
 
@@ -106,7 +112,7 @@ def uploadtoWikiWithFile(titles, tt, chunk, csrftoken):
             success = True
 
     except Exception as e:
-        LogHelper.printLog("文件：{}，长度为{:.2f}MB，错误原因为{}".format(titles, len(chunk) / 1024 ** 2, e),True)
+        LogHelper.printLog("文件：{}，长度为{:.2f}MB，错误原因为{}".format(titles, len(chunk) / 1024 ** 2, e), True)
 
     return success
 
