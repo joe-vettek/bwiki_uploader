@@ -69,11 +69,13 @@ def printLog(logInfo, isError=False):
 def printNew():
     i = datetime.datetime.now()
     times = 0
+    if not os.path.exists('.logs'):
+        os.makedirs('.logs')
     global logNow
-    logNow = fg.join(fg.getLogDir(), "{}-{}-{}.log".format(i.year, betterNum(i.month), betterNum(i.day)))
+    logNow = fg.join(fg.getLogDir(), ".logs/{}-{}-{}.log".format(i.year, betterNum(i.month), betterNum(i.day)))
     while os.path.exists(logNow):
         times += 1
-        logNow = fg.join(fg.getLogDir(), "{}-{}-{}-{}.log".format(i.year, betterNum(i.month), betterNum(i.day), times))
+        logNow = fg.join(fg.getLogDir(), ".logs/{}-{}-{}-{}.log".format(i.year, betterNum(i.month), betterNum(i.day), times))
 
 
 printNew()

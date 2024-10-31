@@ -86,7 +86,8 @@ if __name__ == '__main__':
     root = os.getcwd()
     dirs = [os.path.realpath(os.path.join(root, dir_here)) for dir_here in os.listdir(root) if
             os.path.isdir(dir_here) and not dir_here.startswith(".")]
-    # dirs=['test']
+    if os.path.exists('build') and os.path.exists('dist'):
+        dirs=['test']
     for d in dirs:
         try:
             letGo(d)

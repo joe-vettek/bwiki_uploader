@@ -6,8 +6,8 @@ VSVersionInfo(
   ffi=FixedFileInfo(
 # filevers and prodvers should be always a tuple with four items: (1, 2, 3, 4)
 # Set not needed items to zero 0.
-filevers=(1, 1, 0, 0),  # 文件版本
-prodvers=(1, 1, 0, 0),
+filevers=(1, 1, 5, 0),  # 文件版本
+prodvers=(1, 1, 5, 0),
 # Contains a bitmask that specifies the valid bits 'flags'r
 mask=0x3f,
 # Contains a bitmask that specifies the Boolean attributes of the file.
@@ -31,12 +31,12 @@ StringFileInfo(
     u'040904B0',
     [
     StringStruct(u'FileDescription', u'Bwiki文件批量自动上传工具'),    # 文件说明
-    StringStruct(u'FileVersion', u'1.1.0'),
+    StringStruct(u'FileVersion', u'1.1.5'),
     StringStruct(u'InternalName', u'BWIKI_UPLOADER'),
     StringStruct(u'LegalCopyright', u'https://github.com/joe-vettek/bwiki_uploader'), #版权
     StringStruct(u'OriginalFilename', u'bwiki_uploader.exe'), #原始文件名
     StringStruct(u'ProductName', u'Bwiki Uploader'),      #产品名称
-    StringStruct(u'ProductVersion', u'1.1.0')])    #产品版本
+    StringStruct(u'ProductVersion', u'1.1.5')])    #产品版本
   ]),
 VarFileInfo([VarStruct(u'Translation', [2052, 1200])]) # 语言
   ]
