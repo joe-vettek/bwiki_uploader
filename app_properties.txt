@@ -31,7 +31,7 @@ StringFileInfo(
     u'040904B0',
     [
     StringStruct(u'FileDescription', u'Bwiki文件批量自动上传工具'),    # 文件说明
-    StringStruct(u'FileVersion', u'1.1.5'),
+    StringStruct(u'FileVersion', u'1.1.6'),
     StringStruct(u'InternalName', u'BWIKI_UPLOADER'),
     StringStruct(u'LegalCopyright', u'https://github.com/joe-vettek/bwiki_uploader'), #版权
     StringStruct(u'OriginalFilename', u'bwiki_uploader.exe'), #原始文件名

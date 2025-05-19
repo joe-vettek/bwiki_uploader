@@ -88,6 +88,8 @@ if __name__ == '__main__':
             os.path.isdir(dir_here) and not dir_here.startswith(".")]
     if os.path.exists('build') and os.path.exists('dist'):
         dirs=['test']
+    if '.logs' in dirs:
+        dirs.remove('.logs')
     for d in dirs:
         try:
             letGo(d)

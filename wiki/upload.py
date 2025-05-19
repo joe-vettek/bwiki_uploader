@@ -36,6 +36,11 @@ except Exception as e:
     if os.path.exists('cookie'):
         with open("cookie", "r", encoding="utf-8") as f:
             cookie_pass = f.read()
+        if ";" in cookie_pass:
+            cookies = cookie_pass.split(";")
+            for c in cookies:
+                if c.strip().startswith("SESSDATA"):
+                    cookie_pass = c.split("=")[-1].strip()
     else:
         LogHelper.printLog(e)
         input("请在微软Edge浏览器上登录b站账号，并关闭浏览器（可以在cmd中输入‘taskkill /F /IM msedge.exe’）")
