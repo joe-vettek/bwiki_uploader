@@ -73,9 +73,11 @@ def uploadtoWiki(titles, tt, csrftoken):
     try:
         res = sessdata.post(host, data=editTittle, headers=headers)
         LogHelper.printLog(jt.strToJson(res.text) + ",")
+        return res.json()["edit"]["result"]== "Success"
     except Exception as e:
         traceback.print_exc()
         print(e)
+        return False
 
 
 def prepareUploadWiki(allList):
@@ -105,7 +107,7 @@ def uploadtoWikiWithFile(titles, tt, chunk, csrftoken):
     try:
         res = sessdata.post(host, data=editTittle, headers=headers, files={'file': chunk})
         if res.json().get("error") is not None and res.json()["error"]["code"] == "fileexists-no-change":
-            uploadtoWiki("文件:" + titles, tt, csrftoken)
+            success=uploadtoWiki("文件:" + titles, tt, csrftoken)
         else:
             LogHelper.printLog(jt.strToJson(res.text) + ",")
             if res.json().get("upload") is not None and res.json()["upload"].get("result") == "Success":
